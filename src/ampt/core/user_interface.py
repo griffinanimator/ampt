@@ -3,25 +3,20 @@ from PySide import QtCore, QtGui
 from maya.OpenMayaUI import MQtUtil
 
 
-def wrap_instance(pointer):
-    """
-    :return: pointer -> QObject
-    """
-
-    def get_class(cls_name):
-        cls_attr = getattr(QtGui, cls_name, None)
-        return cls_attr if cls_attr else getattr(QtCore, cls_name, None)
-
+def wrap_instance(pointer, base_class=None):
     ptr = long(pointer)
-    q_object = shiboken.wrapInstance(pointer, QtCore.QObject)
-    meta_object = q_object.metaObject()
-    cls = None
+    qObj = shiboken.wrapInstance(long(ptr), QtCore.QObject)
+    metaObj = qObj.metaObject()
+    cls = metaObj.className()
+    superCls = metaObj.superClass().className()
 
-    while cls is None:
-        cls = get_class(meta_object.className())
-        meta_object = meta_object.superClass()
+    if hasattr(QtGui, cls):
+        base = getattr(QtGui, cls)
+    if hasattr(QtGui, superCls):
+        base = getattr(QtGui, superCls)
 
-    return shiboken.wrapInstance(ptr, cls)
+    base = QtGui.QWidget if not base_class else base_class
+    return shiboken.wrapInstance(long(ptr), base)
 
 
 def get_q_object(element_name):
@@ -45,7 +40,7 @@ def get_maya_main_window():
     if pointer is None:
         raise RuntimeError('Maya main window not found.')
 
-    window = wrap_instance(pointer)
+    window = wrap_instance(pointer, QtGui.QMainWindow)
     assert isinstance(window, QtGui.QMainWindow)
 
     return window
