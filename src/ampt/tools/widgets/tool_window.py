@@ -1,5 +1,5 @@
 from PySide import QtCore, QtGui
-from ..core.user_interface import get_maya_main_window
+from ...core.user_interface import get_maya_main_window
 
 
 class ToolWindow(QtGui.QMainWindow):
@@ -23,8 +23,9 @@ class ToolWindow(QtGui.QMainWindow):
 
     def display(self):
         self.setWindowTitle(self.title)
-        self.setGeometry(0, 0, 1280, 720)
+        self.setGeometry(self.dimensions)
         self.move(self.screen_center)
+        self.show()
 
 
     @property
