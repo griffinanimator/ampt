@@ -1,4 +1,4 @@
-from os import path
+import os
 import json
 
 
@@ -70,3 +70,14 @@ def find_key(dict_, key_):
                         stack.extend(nested_stack)
 
     return stack
+
+def directory_to_dict(path):
+    dir = {}
+    path = path.rstrip(os.sep)
+    start = path.rfind(os.sep) + 1
+    for path, dirs, files in os.walk(path):
+        folders = path[start:].split(os.sep)
+        subdir = dict.fromkeys(files)
+        parent = reduce(dict.get, folders[:-1], dir)
+        parent[folders[-1]] = subdir
+    return dir
