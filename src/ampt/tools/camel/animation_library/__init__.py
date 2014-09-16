@@ -1,4 +1,5 @@
 #import internal libraries
+from ampt.data.dict_utils import directory_to_dict
 from ampt.tools.widgets.tool_window import ToolWindow
 from animation_category_widget import AnimationCategoryWidget
 from animation_thumb_grid_widget import AnimationThumbGridWidget
@@ -9,8 +10,8 @@ from PySide import QtCore, QtGui
 
 
 class AnimationLibrary(ToolWindow):
-    def __init__(self):
-        super(AnimationLibrary, self).__init__()
+    def __init__(self, parent=None):
+        super(AnimationLibrary, self).__init__(parent=parent)
 
         self.title = "Animation Library"
         self.dimensions = QtCore.QRect(0, 0, 980, 480)
@@ -22,8 +23,9 @@ class AnimationLibrary(ToolWindow):
 
         category_widget = AnimationCategoryWidget()
         category_widget.setMinimumWidth(200)
-        category_widget.setMaximumWidth(200)
+        category_widget.setMaximumWidth(400)
         category_widget.setMinimumHeight(self.height())
+        category_widget.set_data(directory_to_dict("D:\\development\\"))
         layout.addWidget(category_widget)
 
         thumb_grid_widget = AnimationThumbGridWidget()
