@@ -7,9 +7,14 @@ from animation_description_widget import AnimationDescriptionWidget
 
 #import third party libraries
 from PySide import QtCore, QtGui
+from PySide.QtCore import Signal
 
+
+class Controller(QtGui.QWidget):
+    selection_changed = Signal(list)
 
 class AnimationLibrary(ToolWindow):
+
     def __init__(self, parent=None):
         super(AnimationLibrary, self).__init__(parent=parent)
 
@@ -42,8 +47,22 @@ class AnimationLibrary(ToolWindow):
         description_widget.setMinimumHeight(self.height())
         layout.addWidget(description_widget)
 
+        self.controller = Controller()
+        self.controller.selection_changed.connect(self.update_status_bar)
+
         self.setCentralWidget(container)
         container.update()
+
+    def update_status_bar(self, _selection):
+        msg = ""
+        if not _selection:
+            msg = "Nothing Selected"
+        elif len(_selection == 1):
+            msg = "%s selected." % _selection[0]
+        else:
+            msg = "%s objects selected." % len(_selection)
+        self.statusBar().showMessage(msg)
+
 
 # Maya Script
 # import sys
