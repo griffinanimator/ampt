@@ -1,4 +1,4 @@
-from PySide import QtCore, QtGui
+from PySide import QtGui
 
 
 def fill_tree(item, value):
@@ -29,12 +29,13 @@ def fill_tree(item, value):
 
 
 class AnimationCategoryWidget(QtGui.QWidget):
+
     def __init__(self, parent=None):
         super(AnimationCategoryWidget, self).__init__(parent=parent)
 
         layout = QtGui.QVBoxLayout(self)
-        self.tree = QtGui.QTreeWidget(self)
 
+        self.tree = QtGui.QTreeWidget(self)
         self.tree.setHeaderHidden(True)
         self.tree.adjustSize()
 
