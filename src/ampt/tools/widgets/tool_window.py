@@ -22,20 +22,10 @@ class ToolWindow(QtGui.QMainWindow):
         return QtCore.QPoint(x, y)
 
 
-# Maya Code
-# maya_main_window = get_maya_main_window()
-#
-# def flush():
-#     for i in maya_main_window.children():
-#         cls = type(i).__name__
-#         if cls == self.__class__.__name__:
-#             i.setParent(None)
-#             i.destroy()
-
 # Test Script
-# if __name__ == "__main__":
-#     import sys
-#     app = QtGui.QApplication(sys.argv)
-#     test = ToolWindow()
-#     test.display()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    test = ToolWindow()
+    test.display()
+    sys.exit(app.exec_())
