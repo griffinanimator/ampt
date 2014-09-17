@@ -25,13 +25,15 @@ class AnimationLibrary(ToolWindow):
         category_widget.setMinimumWidth(200)
         category_widget.setMaximumWidth(400)
         category_widget.setMinimumHeight(self.height())
-        category_widget.set_data(directory_to_dict("D:\\development\\"))
+        # category_widget.set_data(directory_to_dict("D:\\development\\"))
+        category_widget.set_data({"item%s"%i:i for i in range(10)})
         layout.addWidget(category_widget)
 
         thumb_grid_widget = AnimationThumbGridWidget()
         thumb_grid_widget.setMinimumWidth(500)
         thumb_grid_widget.setMaximumWidth(65000)
         thumb_grid_widget.setMinimumHeight(self.height())
+
         layout.addWidget(thumb_grid_widget)
 
         description_widget = AnimationDescriptionWidget()
