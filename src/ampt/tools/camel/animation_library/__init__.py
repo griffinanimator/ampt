@@ -13,6 +13,7 @@ from PySide.QtCore import Signal
 class Controller(QtGui.QWidget):
     selection_changed = Signal(list)
 
+
 class AnimationLibrary(ToolWindow):
 
     def __init__(self, parent=None):
@@ -57,7 +58,7 @@ class AnimationLibrary(ToolWindow):
         msg = ""
         if not _selection:
             msg = "Nothing Selected"
-        elif len(_selection == 1):
+        elif len(_selection) == 1:
             msg = "%s selected." % _selection[0]
         else:
             msg = "%s objects selected." % len(_selection)
@@ -68,19 +69,28 @@ class AnimationLibrary(ToolWindow):
 # import sys
 # sys.path.append("D:\\development\\code\\python\\projects\\ampt\\src")
 #
-# import ampt.tools.widgets.tool_window as tool_window
-# import ampt.tools.widgets.save_animation as save_animation
-# import ampt.tools.widgets.animation_list as animation_list
-# reload(animation_list)
-# reload(save_animation)
-# reload(tool_window)
+# from ampt.tools.camel.animation_library import AnimationLibrary
+# from ampt.core.user_interface import get_maya_main_window
 #
-# import ampt.tools.camel.animation_library as animation_library
-# reload(animation_library)
+# maya_main_window = get_maya_main_window()
+# for i in maya_main_window.children():
+#     cls = type(i).__name__
+#     if cls == "AnimationLibrary":
+#         i.setParent(None)
+#         i.destroy()
+#
+# animation_library = AnimationLibrary()
+# animation_library.display()
+#
+# import maya.OpenMaya as OpenMaya
+# import pymel.core as pm
+#
+# def emit_selection_changed(_):
 
 # Test Script
 if __name__ == "__main__":
     import sys
+    import random
     app = QtGui.QApplication(sys.argv)
     test = AnimationLibrary()
     test.display()
