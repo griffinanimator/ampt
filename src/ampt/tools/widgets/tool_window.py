@@ -8,6 +8,9 @@ class ToolWindow(QtGui.QMainWindow):
         self.title = "Untitled"
         self.dimensions = QtCore.QRect(0, 0, 1280, 720)
 
+    def update_status(self, msg):
+        self.statusBar().showMessage(msg)
+
     def display(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.dimensions)
