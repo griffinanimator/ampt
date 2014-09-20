@@ -1,4 +1,5 @@
-from PySide import QtGui
+from PySide import QtCore, QtGui
+Signal = QtCore.Signal
 
 
 def fill_tree(item, value):
@@ -40,27 +41,30 @@ class AnimationCategoryWidget(QtGui.QWidget):
         self.tree.adjustSize()
 
         # Default Signals
-        self.tree.currentItemChanged.connect(self.on_item_clicked)
-        self.tree.itemActivated.connect(self.on_item_double_clicked)
-        self.tree.itemChanged.connect(self.on_item_clicked)
+        #self.tree.currentItemChanged.connect(self.on_item_clicked)
+        #self.tree.itemActivated.connect(self.on_item_double_clicked)
+        #self.tree.itemChanged.connect(self.on_item_clicked)
         self.tree.itemClicked.connect(self.on_item_clicked)
-        self.tree.itemCollapsed.connect(self.on_item_clicked)
+        #self.tree.itemCollapsed.connect(self.on_item_clicked)
         self.tree.itemDoubleClicked.connect(self.on_item_double_clicked)
-        self.tree.itemEntered.connect(self.on_item_clicked)
-        self.tree.itemExpanded.connect(self.on_item_clicked)
-        self.tree.itemPressed.connect(self.on_item_clicked)
-        self.tree.itemSelectionChanged.connect(self.on_item_clicked)
+        #self.tree.itemEntered.connect(self.on_item_clicked)
+        #self.tree.itemExpanded.connect(self.on_item_clicked)
+        #self.tree.itemPressed.connect(self.on_item_clicked)
+        #self.tree.itemSelectionChanged.connect(self.on_item_clicked)
 
         layout.addWidget(self.tree)
 
         self.setLayout(layout)
         self.update()
 
-    def on_item_clicked(selfself, *args, **kwargs):
-        print "FizzBazz"
+    def on_item_clicked(self, _node, *args, **kwargs):
+        return _node.text(0)
 
-    def on_item_double_clicked(self, *args, **kwargs):
-        print "FooBar"
+    def on_item_double_clicked(self, _node, *args, **kwargs):
+        return _node.text(0)
+
+    def set_current_item(self, _item):
+        self.tree.setCurrentItem(_item)
 
     def set_data(self, data):
         self.update_data(data)
