@@ -1,6 +1,8 @@
 import shiboken
+import pymel.core as pm
 from PySide import QtCore, QtGui
 from maya.OpenMayaUI import MQtUtil
+import maya.OpenMaya as om
 
 
 def wrap_instance(pointer, base_class=None):
@@ -44,3 +46,95 @@ def get_maya_main_window():
     assert isinstance(window, QtGui.QMainWindow)
 
     return window
+
+# Available Maya Callbacks
+"""
+ActiveViewChanged
+ChannelBoxLabelSelected
+ColorIndexChanged
+CurveRGBColorChanged
+DagObjectCreated
+DisplayColorChanged
+DisplayPreferenceChanged
+DisplayRGBColorChanged
+DragRelease
+MenuModeChanged
+ModelPanelSetFocus
+NameChanged
+NewSceneOpened
+PostSceneRead
+PostSceneSegmentChanged
+PostToolChanged
+PreFileNewOrOpened
+RebuildUIValues
+RecentCommandChanged
+Redo
+SceneImported
+SceneOpened
+SceneSaved
+SceneSegmentChanged
+SelectModeChanged
+SelectPreferenceChanged
+SelectPriorityChanged
+SelectTypeChanged
+SelectionChanged
+SequencerActiveShotChanged
+SetModified
+ToolChanged
+ToolDirtyChanged
+Undo
+angularToleranceChanged
+angularUnitChanged
+animLayerAnimationChanged
+animLayerBaseLockChanged
+animLayerGhostChanged
+animLayerLockChanged
+animLayerRebuild
+animLayerRefresh
+axisAtOriginChanged
+cameraChange
+cameraDisplayAttributesChange
+constructionHistoryChanged
+currentContainerChange
+currentSoundNodeChanged
+deleteAll
+displayLayerAdded
+displayLayerChange
+displayLayerDeleted
+displayLayerManagerChange
+displayLayerVisibilityChanged
+glFrameTrigger
+gridDisplayChanged
+idle
+idleHigh
+interactionStyleChanged
+lightLinkingChanged
+lightLinkingChangedNonSG
+linearToleranceChanged
+linearUnitChanged
+modelEditorChanged
+nurbsCurveRebuildPrefsChanged
+nurbsToPolygonsPrefsChanged
+nurbsToSubdivPrefsChanged
+passContributionMapChange
+playbackRangeChanged
+playbackRangeSliderChanged
+quitApplication
+renderLayerChange
+renderLayerManagerChange
+renderPassChange
+renderPassSetChange
+renderPassSetMembershipChange
+selectionPipelineChanged
+snapModeChanged
+softSelectOptionsChanged
+start3dPaintTool
+startColorPerVertexTool
+stop3dPaintTool
+stopColorPerVertexTool
+symmetricModellingOptionsChanged
+threadCountChanged
+timeChanged
+timeUnitChanged
+workspaceChanged
+"""
