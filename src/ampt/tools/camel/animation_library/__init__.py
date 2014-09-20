@@ -1,20 +1,21 @@
 #import internal libraries
-from ampt.data.dict_utils import directory_to_dict
 from ampt.tools.widgets.tool_window import ToolWindow
+
+import animation_category_widget as acw
+reload(acw)
 from animation_category_widget import AnimationCategoryWidget
+
 from animation_thumb_grid_widget import AnimationThumbGridWidget
 from animation_description_widget import AnimationDescriptionWidget
 
 #import third party libraries
 from PySide import QtCore, QtGui
-from PySide.QtCore import Signal
-
-
-class Controller(QtGui.QWidget):
-    selection_changed = Signal(list)
+Signal = QtCore.Signal
 
 
 class AnimationLibrary(ToolWindow):
+
+    selection_changed = Signal(list)
 
     def __init__(self, parent=None):
         super(AnimationLibrary, self).__init__(parent=parent)
@@ -27,13 +28,11 @@ class AnimationLibrary(ToolWindow):
         layout.setContentsMargins(0, 0, 0, 0)
         container.setLayout(layout)
 
-        category_widget = AnimationCategoryWidget()
-        category_widget.setMinimumWidth(200)
-        category_widget.setMaximumWidth(400)
-        category_widget.setMinimumHeight(self.height())
-        # category_widget.set_data(directory_to_dict("D:\\development\\"))
-        category_widget.set_data({"item%s"%i:i for i in range(10)})
-        layout.addWidget(category_widget)
+        self.category_widget = AnimationCategoryWidget()
+        self.category_widget.setMinimumWidth(200)
+        self.category_widget.setMaximumWidth(400)
+        self.category_widget.setMinimumHeight(self.height())
+        layout.addWidget(self.category_widget)
 
         thumb_grid_widget = AnimationThumbGridWidget()
         thumb_grid_widget.setMinimumWidth(500)
@@ -48,14 +47,15 @@ class AnimationLibrary(ToolWindow):
         description_widget.setMinimumHeight(self.height())
         layout.addWidget(description_widget)
 
-        self.controller = Controller()
-        self.controller.selection_changed.connect(self.update_status_bar)
+        self.selection_changed.connect(self.update_status_bar)
+        self.selection_changed.connect(self.set_category_selection)
 
         self.setCentralWidget(container)
+
+        self.update_status_bar([])
         container.update()
 
     def update_status_bar(self, _selection):
-        msg = ""
         if not _selection:
             msg = "Nothing Selected"
         elif len(_selection) == 1:
@@ -64,33 +64,50 @@ class AnimationLibrary(ToolWindow):
             msg = "%s objects selected." % len(_selection)
         self.statusBar().showMessage(msg)
 
+    def set_categories(self, data):
+        if len(data):
+            self.category_widget.set_data(data)
+        else:
+            self.category_widget.set_data([])
+
+    def set_category_selection(self, _item):
+        self.category_widget.tree.setCurrentItem(_item)
+
 
 # Maya Script
-# import sys
-# sys.path.append("D:\\development\\code\\python\\projects\\ampt\\src")
-#
-# from ampt.tools.camel.animation_library import AnimationLibrary
-# from ampt.core.user_interface import get_maya_main_window
-#
-# maya_main_window = get_maya_main_window()
-# for i in maya_main_window.children():
-#     cls = type(i).__name__
-#     if cls == "AnimationLibrary":
-#         i.setParent(None)
-#         i.destroy()
-#
-# animation_library = AnimationLibrary()
-# animation_library.display()
-#
-# import maya.OpenMaya as OpenMaya
-# import pymel.core as pm
-#
-# def emit_selection_changed(_):
+def load():
+    try:
+        from ampt.core.user_interface import get_maya_main_window
+        import maya.OpenMaya as om
+        import pymel.core as pm
+
+        maya_main_window = get_maya_main_window()
+
+        for i in maya_main_window.children():
+            cls = type(i).__name__
+            if cls == "AnimationLibrary":
+                i.setParent(None)
+                i.destroy()
+
+        application = AnimationLibrary(maya_main_window)
+
+        def on_selection_changed(_):
+            application.selection_changed.emit(pm.selected(type="transform"))
+            application.category_widget.set_current_item(pm.selected(type="transform"))
+
+        om.MEventMessage.addEventCallback('SelectionChanged', on_selection_changed)
+
+        application.category_widget.set_data(pm.ls(dag=True))
+
+        application.display()
+
+    except Exception as e:
+        print e.message()
+        pass
 
 # Test Script
 if __name__ == "__main__":
     import sys
-    import random
     app = QtGui.QApplication(sys.argv)
     test = AnimationLibrary()
     test.display()
