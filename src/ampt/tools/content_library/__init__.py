@@ -20,7 +20,7 @@ class ContentLibrary(ToolWindow):
         super(ContentLibrary, self).__init__(parent=parent)
 
         self.title = "Content Library"
-        self.dimensions = QtCore.QRect(0, 0, 980, 480)
+        self.status_bar_msg = "Ready"
 
         container = QtGui.QWidget(self)
         layout = QtGui.QHBoxLayout(container)
@@ -46,15 +46,13 @@ class ContentLibrary(ToolWindow):
         description.setMinimumHeight(self.height())
         layout.addWidget(description)
 
-        self.selection_changed.connect(self.update_status_bar)
-
         self.setCentralWidget(container)
 
-        self.update_status_bar(str())
+        self.update_status_bar()
         container.update()
 
-    def update_status_bar(self, msg):
-        self.statusBar().showMessage(msg)
+    def update_status_bar(self):
+        self.statusBar().showMessage(self.status_bar_msg)
 
 
 # Test Script
