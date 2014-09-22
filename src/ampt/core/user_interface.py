@@ -47,6 +47,20 @@ def get_maya_main_window():
 
     return window
 
+
+def load_interface(parent, cls):
+    parent = get_maya_main_window() if not parent else parent
+
+    for child in parent.children():
+        child_type = type(child).__name__
+        class_type = cls.__name__
+        if child_type == class_type:
+            child.setParent(None)
+            child.destroy()
+
+    app = cls(parent)
+    app.display()
+
 # Available Maya Callbacks
 """
 ActiveViewChanged
