@@ -3,7 +3,7 @@ Signal = QtCore.Signal
 
 
 def fill_tree(item, value):
-    item.setExpanded(True)
+    item.setExpanded(False)
     if type(value) is dict:
         for key, val in sorted(value.iteritems()):
             child = QtGui.QTreeWidgetItem()
