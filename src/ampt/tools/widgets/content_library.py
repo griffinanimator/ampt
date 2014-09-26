@@ -1,10 +1,7 @@
 #import internal libraries
-import ampt.tools.widgets.content_outliner as content_outliner
-reload(content_outliner)
-
 from ampt.tools.widgets.tool_window import ToolWindow
-from ampt.tools.widgets.content_outliner import ContentOutlinerWidget
-from ampt.tools.widgets.content_thumbnails import ContentThumbnailsWidget
+from ampt.tools.widgets.tree_widget import TreeWidget
+from ampt.tools.widgets.thumbnail_widget import ThumbnailWidget
 from ampt.tools.widgets.content_description import ContentDescriptionWidget
 
 #import third party libraries
@@ -27,24 +24,24 @@ class ContentLibrary(ToolWindow):
         layout.setContentsMargins(0, 0, 0, 0)
         container.setLayout(layout)
 
-        self.outliner = ContentOutlinerWidget()
+        self.outliner = TreeWidget()
         self.outliner.setMinimumWidth(200)
         self.outliner.setMaximumWidth(400)
         self.outliner.setMinimumHeight(self.height())
         layout.addWidget(self.outliner)
 
-        thumbnails = ContentThumbnailsWidget()
+        thumbnails = ThumbnailWidget()
         thumbnails.setMinimumWidth(500)
         thumbnails.setMaximumWidth(65000)
         thumbnails.setMinimumHeight(self.height())
 
         layout.addWidget(thumbnails)
 
-        description = ContentDescriptionWidget()
-        description.setMinimumWidth(330)
-        description.setMaximumWidth(500)
-        description.setMinimumHeight(self.height())
-        layout.addWidget(description)
+        self.description = ContentDescriptionWidget()
+        self.description.setMinimumWidth(330)
+        self.description.setMaximumWidth(500)
+        self.description.setMinimumHeight(self.height())
+        layout.addWidget(self.description)
 
         self.setCentralWidget(container)
 
