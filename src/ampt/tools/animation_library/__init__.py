@@ -4,7 +4,7 @@ from ampt.tools.widgets.content_library import ContentLibrary
 import maya.OpenMaya as OpenMaya
 import pymel.core as pm
 
-from PySide import QtCore
+from PySide import QtCore, QtGui
 
 
 class AnimationLibrary(ContentLibrary):
@@ -13,14 +13,40 @@ class AnimationLibrary(ContentLibrary):
 
         self.title = "Animation Library"
         self.outliner.set_data(pm.ls(dag=True))
+        self.build_description_widget()
         self.set_selection_callback()
 
+    def build_description_widget(self):
+        widget = self.description
+        layout = widget.layout()
+
+        item_icon_layout = QtGui.QHBoxLayout(widget)
+        item_icon_widget = QtGui.QLabel("Nothing Selected...")
+        item_icon_layout.addWidget(item_icon_widget)
+
+        layout.addChildLayout(item_icon_layout)
+
     def set_selection_callback(self):
+
         def om_callback(_):
-            selected_obj = pm.selected(type="transform")
-            selected_item = self.outliner.tree.findItems(selected_obj[0].name(), QtCore.Qt.MatchExactly)[0]
-            self.selection_changed.emit(selected_obj)
-            self.outliner.set_current_item(selected_item)
+
+            def selected_item():
+                tree_item = self.outliner.tree.currentItem()
+                return tree_item.text(0) if tree_item else None
+
+            def selected_obj():
+                selected = pm.selected(type="transform") or None
+                return selected[0].name() if selected else selected
+
+            _item = selected_item()
+            _obj = selected_obj()
+
+            if len(_obj):
+                selected_item = self.outliner.tree.findItems(_obj, QtCore.Qt.MatchExactly)[0]
+                self.selection_changed.emit(selected_obj)
+                self.outliner.set_current_item(selected_item)
+            elif len(_item):
+                pm.select(_item, r=True)
 
         OpenMaya.MEventMessage.addEventCallback("SelectionChanged", om_callback)
 
@@ -30,6 +56,9 @@ class AnimationLibrary(ContentLibrary):
                 pm.select(item, r=True)
 
         self.outliner.tree.itemSelectionChanged.connect(qt_callback)
+
+        init_selection = pm.ls(sl=True)
+        pm.select(init_selection, r=True)
 
 
 def load():
