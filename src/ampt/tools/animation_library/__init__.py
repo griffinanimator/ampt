@@ -15,6 +15,7 @@ class AnimationLibrary(ContentLibrary):
         self.outliner.set_data(pm.ls(dag=True))
         self.build_description_widget()
         self.set_selection_callback()
+        self.set_dag_callback()
 
     def build_description_widget(self):
         widget = self.description
@@ -41,24 +42,34 @@ class AnimationLibrary(ContentLibrary):
             _item = selected_item()
             _obj = selected_obj()
 
-            if len(_obj):
-                selected_item = self.outliner.tree.findItems(_obj, QtCore.Qt.MatchExactly)[0]
+            if _obj:
+                result = tree_item = self.outliner.tree.findItems(_obj, QtCore.Qt.MatchExactly)[0]
                 self.selection_changed.emit(selected_obj)
-                self.outliner.set_current_item(selected_item)
-            elif len(_item):
+                self.outliner.set_current_item(result)
+            elif _item:
                 pm.select(_item, r=True)
+            else:
+                pm.select(clear=True)
 
         OpenMaya.MEventMessage.addEventCallback("SelectionChanged", om_callback)
 
         def qt_callback(*args, **kwargs):
             item = self.outliner.tree.currentItem().text(0)
-            if len(item):
+            if item:
                 pm.select(item, r=True)
 
         self.outliner.tree.itemSelectionChanged.connect(qt_callback)
 
         init_selection = pm.ls(sl=True)
         pm.select(init_selection, r=True)
+
+    def set_dag_callback(self):
+
+        def om_callback(_):
+            self.outliner.set_data(pm.ls(dag=True))
+            self.outliner.update_data(pm.ls(dag=True))
+
+        OpenMaya.MEventMessage.addEventCallback("DagObjectCreated", om_callback)
 
 
 def load():
