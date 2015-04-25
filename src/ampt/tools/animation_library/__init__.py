@@ -57,6 +57,10 @@ class AnimationLibrary(ContentLibrary):
             item = self.outliner.tree.currentItem().text(0)
             if item:
                 pm.select(item, r=True)
+                self.update_status("%s Selected" % item)
+            else:
+                pm.select(clear=True)
+                self.update_status("Ready")
 
         self.outliner.tree.itemSelectionChanged.connect(qt_callback)
 
