@@ -2,28 +2,26 @@
 import os
 
 # third party libraries
-from PySide import QtCore, QtGui
+from PySide import QtCore
 
 # internal libraries
 from ampt.core.os_utils import module_path, is_dir
-from ampt.core.user_interface import load_interface
-from ampt.tools.widgets.tool_window import ToolWindow
+from ampt.core.user_interface import load_dock_interface, add_menu
+from ampt.tools.widgets.tool_widget import ToolWidget
 from ampt.tools.widgets.vertical_button_list import VerticalButtonList
 
 
-class SandboxInterface(ToolWindow):
+class SandboxInterface(ToolWidget):
     def __init__(self, parent=None):
         super(SandboxInterface, self).__init__(parent)
 
         self.title = "Sandbox"
-        self.dimensions = QtCore.QRect(0, 0, 320, 480)
-        self.setLayout(QtGui.QHBoxLayout(self))
+        self.dimensions = QtCore.QRect(0, 0, 720, 720)
+
+        self.menu = add_menu("Sandbox")
         self.packages = self.find_packages()
-
         self.package_list = VerticalButtonList(self)
-        self.layout().addWidget(self.package_list)
-
-        self.display_packages()
+        # self.display_packages()
 
     @staticmethod
     def find_packages():
@@ -47,22 +45,11 @@ class SandboxInterface(ToolWindow):
                     continue
                 else:
                     self.package_list.add_button(module.properties["title"])
-                    self.update()
 
 
 def load():
     try:
-        load_interface(None, SandboxInterface)
+        load_dock_interface(None, SandboxInterface)
     except Exception as e:
         print e.message
         pass
-
-
-# Test Script
-if __name__ == "__main__":
-    import sys
-
-    app = QtGui.QApplication(sys.argv)
-    test = SandboxInterface()
-    test.display()
-    sys.exit(app.exec_())

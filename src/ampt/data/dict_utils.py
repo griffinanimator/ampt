@@ -6,7 +6,7 @@ class JSONDict(dict):
     def __init__(self, fp, *args, **kwargs):
         super(JSONDict, self).__init__(*args, **kwargs)
         self.fp = fp
-        if path.exists(fp):
+        if os.path.exists(fp):
             with open(self.fp) as fp:
                 data = json.load(fp)
             self.update(data)
@@ -71,13 +71,14 @@ def find_key(dict_, key_):
 
     return stack
 
+
 def directory_to_dict(path):
-    dir = {}
+    dir_dict = {}
     path = path.rstrip(os.sep)
     start = path.rfind(os.sep) + 1
     for path, dirs, files in os.walk(path):
         folders = path[start:].split(os.sep)
         subdir = dict.fromkeys(files)
-        parent = reduce(dict.get, folders[:-1], dir)
+        parent = reduce(dict.get, folders[:-1], dir_dict)
         parent[folders[-1]] = subdir
-    return dir
+    return dir_dict

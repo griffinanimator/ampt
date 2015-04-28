@@ -10,16 +10,15 @@ class VerticalButtonList(QtGui.QWidget):
         self.buttons = list()
 
         self.setLayout(self.layout)
-        self.update()
 
     def add_button(self, label="ButtonName"):
-        self.buttons.append(QtGui.QPushButton(label))
+        button = QtGui.QPushButton(label, self)
+        self.buttons.append(button)
         self.update_buttons()
 
     def update_buttons(self):
         for button in self.buttons:
             self.layout.addWidget(button)
-            self.update()
 
 
 # Test Script

@@ -1,8 +1,8 @@
+# third party libraries
 import shiboken
-import pymel.core as pm
 from PySide import QtCore, QtGui
 from maya.OpenMayaUI import MQtUtil
-import maya.OpenMaya as om
+import pymel.core as pm
 
 
 def wrap_instance(pointer, base_class=None):
@@ -48,6 +48,10 @@ def get_maya_main_window():
     return window
 
 
+def get_maya_main_window_name():
+    return pm.MelGlobals()['gMainWindow']
+
+
 def load_interface(parent, cls):
     parent = get_maya_main_window() if not parent else parent
 
@@ -60,6 +64,52 @@ def load_interface(parent, cls):
 
     app = cls(parent)
     app.display()
+
+
+def load_dock_interface(parent, cls):
+    parent = get_maya_main_window() if not parent else parent
+
+    for child in parent.children():
+        child_type = type(child).__name__
+        class_type = cls.__name__
+        if child_type == class_type:
+            child.setParent(None)
+            child.destroy()
+
+    def get_tabbed_dock_widgets():
+        docked_controls = [ctl for ctl in parent.children() if isinstance(ctl, QtGui.QDockWidget)]
+        tabbed_controls = list()
+        for control in docked_controls:
+            for shared_control in parent.tabifiedDockWidgets(control):
+                if shared_control not in tabbed_controls:
+                    tabbed_controls.append(shared_control)
+        return tabbed_controls
+
+    obj = cls()  # must pass an instantiated object to addDockWidget
+    obj.display()
+    obj.setAllowedAreas(QtCore.Qt.AllDockWidgetAreas)
+    parent.addDockWidget(QtCore.Qt.RightDockWidgetArea, obj)
+
+    tabbed_dock_controls = None
+    tabbed_dock_controls = get_tabbed_dock_widgets()
+    if obj not in tabbed_dock_controls:
+        tabbed_dock_controls.append(obj)
+
+    for i in range(0, len(tabbed_dock_controls) - 1):
+        parent.tabifyDockWidget(tabbed_dock_controls[i], tabbed_dock_controls[i+1])
+
+
+
+def add_menu(name=None):
+    if not name:
+        return name
+
+    if pm.menu(name, ex=True):
+        pm.deleteUI(name, m=True)
+    menu = pm.menu(name, parent=get_maya_main_window_name())
+
+    return get_q_object(menu)
+
 
 # Available Maya Callbacks
 """
