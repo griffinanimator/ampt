@@ -10,6 +10,8 @@ from ampt.core.user_interface import load_dock_interface, add_menu
 from ampt.tools.widgets.tool_widget import ToolWidget
 from ampt.tools.widgets.vertical_button_list import VerticalButtonList
 
+MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
+
 
 class SandboxInterface(ToolWidget):
     def __init__(self, parent=None):
@@ -18,14 +20,34 @@ class SandboxInterface(ToolWidget):
 
         super(SandboxInterface, self).__init__(self.title, parent)
 
+        # sandobox icon (using a label)
+        pixmap = QtGui.QPixmap(MODULE_PATH+"/sandbox.png")
+        label_icon = QtGui.QLabel(self)
+        label_icon.setFixedSize(QtCore.QSize(128, 86))
+        label_icon.setScaledContents(1)
+        label_icon.setPixmap(pixmap)
+        label_icon.setAlignment(QtCore.Qt.AlignCenter)
+
+        # build data and tool widget
         packages = self.find_packages()
         package_list = VerticalButtonList(self)
-        self.setWidget(package_list)
+
+        # add widgets
+        package_list.layout().addWidget(label_icon)
         for package in packages:
+            # import the package module to access properties dict()
+            # this module obj drops out of scope after this loop completes
             package_module = self.import_package(package)
-            package_name = package_module.properties["title"]
-            package_button = QtGui.QPushButton(package_name, package_list)
-        self.update()
+            # only add packages that are marked for debug
+            if package_module.properties["is_debug"]:
+                package_name = package_module.properties["title"]
+                # build the package button and add to the package list layout
+                package_button = QtGui.QPushButton(package_name, package_list)
+                package_button.clicked.connect(package_module.load)  # callback
+                package_list.layout().addWidget(package_button)
+
+        # set the tool widget
+        self.setWidget(package_list)
 
     @staticmethod
     def find_packages():
