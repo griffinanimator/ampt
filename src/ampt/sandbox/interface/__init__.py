@@ -2,7 +2,7 @@
 import os
 
 # third party libraries
-from PySide import QtCore
+from PySide import QtCore, QtGui
 
 # internal libraries
 from ampt.core.os_utils import module_path, is_dir
@@ -13,15 +13,19 @@ from ampt.tools.widgets.vertical_button_list import VerticalButtonList
 
 class SandboxInterface(ToolWidget):
     def __init__(self, parent=None):
-        super(SandboxInterface, self).__init__(parent)
 
         self.title = "Sandbox"
-        self.dimensions = QtCore.QRect(0, 0, 720, 720)
 
-        self.menu = add_menu("Sandbox")
-        self.packages = self.find_packages()
-        self.package_list = VerticalButtonList(self)
-        # self.display_packages()
+        super(SandboxInterface, self).__init__(self.title, parent)
+
+        packages = self.find_packages()
+        package_list = VerticalButtonList(self)
+        self.setWidget(package_list)
+        for package in packages:
+            package_module = self.import_package(package)
+            package_name = package_module.properties["title"]
+            package_button = QtGui.QPushButton(package_name, package_list)
+        self.update()
 
     @staticmethod
     def find_packages():
@@ -36,15 +40,6 @@ class SandboxInterface(ToolWidget):
         module = __import__(module_name, {}, {}, [package_name])
         reload(module)  # DEBUG_HACK
         return module
-
-    def display_packages(self):
-        if len(self.packages):
-            for package in self.packages:
-                module = self.import_package(package)
-                if not module.properties["is_debug"]:
-                    continue
-                else:
-                    self.package_list.add_button(module.properties["title"])
 
 
 def load():

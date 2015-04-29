@@ -86,7 +86,6 @@ def load_dock_interface(parent, cls):
         return tabbed_controls
 
     obj = cls()  # must pass an instantiated object to addDockWidget
-    obj.display()
     obj.setAllowedAreas(QtCore.Qt.AllDockWidgetAreas)
     parent.addDockWidget(QtCore.Qt.RightDockWidgetArea, obj)
 
