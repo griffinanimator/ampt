@@ -110,94 +110,17 @@ def add_menu(name=None):
     return get_q_object(menu)
 
 
-# Available Maya Callbacks
-"""
-ActiveViewChanged
-ChannelBoxLabelSelected
-ColorIndexChanged
-CurveRGBColorChanged
-DagObjectCreated
-DisplayColorChanged
-DisplayPreferenceChanged
-DisplayRGBColorChanged
-DragRelease
-MenuModeChanged
-ModelPanelSetFocus
-NameChanged
-NewSceneOpened
-PostSceneRead
-PostSceneSegmentChanged
-PostToolChanged
-PreFileNewOrOpened
-RebuildUIValues
-RecentCommandChanged
-Redo
-SceneImported
-SceneOpened
-SceneSaved
-SceneSegmentChanged
-SelectModeChanged
-SelectPreferenceChanged
-SelectPriorityChanged
-SelectTypeChanged
-SelectionChanged
-SequencerActiveShotChanged
-SetModified
-ToolChanged
-ToolDirtyChanged
-Undo
-angularToleranceChanged
-angularUnitChanged
-animLayerAnimationChanged
-animLayerBaseLockChanged
-animLayerGhostChanged
-animLayerLockChanged
-animLayerRebuild
-animLayerRefresh
-axisAtOriginChanged
-cameraChange
-cameraDisplayAttributesChange
-constructionHistoryChanged
-currentContainerChange
-currentSoundNodeChanged
-deleteAll
-displayLayerAdded
-displayLayerChange
-displayLayerDeleted
-displayLayerManagerChange
-displayLayerVisibilityChanged
-glFrameTrigger
-gridDisplayChanged
-idle
-idleHigh
-interactionStyleChanged
-lightLinkingChanged
-lightLinkingChangedNonSG
-linearToleranceChanged
-linearUnitChanged
-modelEditorChanged
-nurbsCurveRebuildPrefsChanged
-nurbsToPolygonsPrefsChanged
-nurbsToSubdivPrefsChanged
-passContributionMapChange
-playbackRangeChanged
-playbackRangeSliderChanged
-quitApplication
-renderLayerChange
-renderLayerManagerChange
-renderPassChange
-renderPassSetChange
-renderPassSetMembershipChange
-selectionPipelineChanged
-snapModeChanged
-softSelectOptionsChanged
-start3dPaintTool
-startColorPerVertexTool
-stop3dPaintTool
-stopColorPerVertexTool
-symmetricModellingOptionsChanged
-threadCountChanged
-timeChanged
-timeUnitChanged
-workspaceChanged
-"""
+def get_toolbars(q_obj):
+    return [child for child in q_obj.children() if isinstance(child, QtGui.QToolBar)] if q_obj.children() else None
+
+    
+def get_toolbar(toolbar_name):
+    """
+    Default Maya Toolbar names: "Status Line", "Shelf", "Help Line", "Command Line", "Range Slider", "Time Slider", "Tool Box"
+    """
+    toolbars = get_toolbars(get_maya_main_window())
+    return [toolbar for toolbar in toolbars if toolbar.windowTitle() == toolbar_name][0]
+
+    
+def get_shelf():
+    return [child for child in get_toolbar("Shelf").children() if isinstance(child, QtGui.QWidget) and child.objectName() == "MainShelfLayout"][0]
