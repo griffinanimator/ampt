@@ -1,1 +1,0 @@
-properties = {"title": "Module C", "Summary": "This is Module C", "icon": "icon_3.png"}
