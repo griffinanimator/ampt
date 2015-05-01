@@ -13,17 +13,18 @@ class ComponentWidget(QtGui.QPushButton):
         super(ComponentWidget, self).__init__(parent)
 
         button_layout = QtGui.QHBoxLayout()
-        button_layout.setContentsMargins(2, 2, 2, 2)
+        button_layout.setContentsMargins(5, 2, 5, 2)
         button_layout.setAlignment(QtCore.Qt.AlignLeft)
 
-        self.setMinimumHeight(72)
+        self.setMinimumHeight(40)
 
         pixmap = QtGui.QPixmap(SANDBOX_PATH + "/icons/" + module.properties["icon"])
         label_icon = QtGui.QLabel(self)
-        label_icon.setFixedSize(QtCore.QSize(64, 64))
+        label_icon.setFixedSize(QtCore.QSize(32, 32))
         label_icon.setScaledContents(1)
         label_icon.setPixmap(pixmap)
         label_icon.setAlignment(QtCore.Qt.AlignCenter)
+
         label_text = QtGui.QLabel(module.properties["title"])
         label_text.setFont(QtGui.QFont("Arial", 12, QtGui.QFont.Bold))
 

@@ -8,7 +8,8 @@ from ampt.tools.widgets.tool_widget import ToolWidget
 from ampt.core.user_interface import load_dock_interface
 
 # application libraries
-from ampt.sandbox.modular_rigging.widgets.layout_section import LayoutSection
+from widgets.layout_section import LayoutSection
+from widgets.weighting_section import WeightingSection
 
 
 class ModularRigging(ToolWidget):
@@ -17,6 +18,17 @@ class ModularRigging(ToolWidget):
         self.title = properties["title"]
 
         super(ModularRigging, self).__init__(self.title, parent)
+
+        # main widget
+        main_layout = QtGui.QVBoxLayout()
+        main_layout.setContentsMargins(5, 5, 5, 5)
+
+        menu = QtGui.QMenuBar()
+        file_menu = menu.addMenu("File")
+        edit_menu = menu.addMenu("Edit")
+        main_layout.addWidget(menu)
+
+        main_widget = QtGui.QWidget()
 
         # header
         header = QtGui.QWidget()
@@ -27,14 +39,10 @@ class ModularRigging(ToolWidget):
         header_layout.addWidget(label_text)
         header.setLayout(header_layout)
 
-        # main widget
-        main_layout = QtGui.QVBoxLayout()
-        main_layout.setContentsMargins(5, 5, 5, 5)
-        main_widget = QtGui.QWidget()
 
         sections = QtGui.QTabWidget()
         sections.addTab(LayoutSection(), "Layout")
-        sections.addTab(QtGui.QWidget(), "Weighting")
+        sections.addTab(WeightingSection(), "Weighting")
         sections.addTab(QtGui.QWidget(), "Build")
 
         main_layout.addWidget(header)

@@ -26,6 +26,21 @@ class LayoutSection(QtGui.QWidget):
         container.setMinimumWidth(320)
         container_layout = QtGui.QVBoxLayout()
 
+        search_widget = QtGui.QWidget()
+        search_layout = QtGui.QHBoxLayout()
+
+        search_label = QtGui.QLabel("Search: ")
+        search_entry = QtGui.QLineEdit()
+        search_button = QtGui.QPushButton()
+
+        search_layout.addWidget(search_label)
+        search_layout.addWidget(search_entry)
+        search_layout.addWidget(search_button)
+
+        search_widget.setLayout(search_layout)
+
+        container_layout.addWidget(search_widget)
+
         for component in self.components:
             base_module_name = str(".").join(__name__.split(".")[:-2])
             module_name = str(".").join([base_module_name, "components", component])
