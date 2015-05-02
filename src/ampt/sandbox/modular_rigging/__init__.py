@@ -1,5 +1,8 @@
 properties = {"title": "Modular Rigging", "is_debug": True}
 
+# standard libraries
+import os
+
 # third party libraries
 from PySide import QtCore, QtGui
 
@@ -13,6 +16,11 @@ from widgets.weighting_section import WeightingSection
 
 
 class ModularRigging(ToolWidget):
+
+    MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
+    SANDBOX_PATH = os.path.abspath(os.path.split(MODULE_PATH)[0]).replace("\\", "/")
+    COMPONENTS_PATH = os.path.join(SANDBOX_PATH, "components").replace("\\", "/")
+
     def __init__(self, parent=None):
 
         self.title = properties["title"]
@@ -41,9 +49,9 @@ class ModularRigging(ToolWidget):
 
 
         sections = QtGui.QTabWidget()
-        sections.addTab(LayoutSection(), "Layout")
-        sections.addTab(WeightingSection(), "Weighting")
-        sections.addTab(QtGui.QWidget(), "Build")
+        sections.addTab(LayoutSection(self), "Layout")
+        sections.addTab(WeightingSection(self), "Weighting")
+        sections.addTab(QtGui.QWidget(self), "Build")
 
         main_layout.addWidget(header)
         main_layout.addWidget(sections)

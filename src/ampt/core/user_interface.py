@@ -98,7 +98,6 @@ def load_dock_interface(parent, cls):
         parent.tabifyDockWidget(tabbed_dock_controls[i], tabbed_dock_controls[i+1])
 
 
-
 def add_menu(name=None):
     if not name:
         return name

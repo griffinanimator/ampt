@@ -6,14 +6,15 @@ from PySide import QtCore, QtGui
 
 # internal libraries
 from ampt.core.os_utils import module_path, is_dir
-from ampt.core.user_interface import load_dock_interface, add_menu
+from ampt.core.user_interface import load_dock_interface
 from ampt.tools.widgets.tool_widget import ToolWidget
 from ampt.tools.widgets.vertical_button_list import VerticalButtonList
 
-MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
-
 
 class SandboxInterface(ToolWidget):
+
+    MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
+
     def __init__(self, parent=None):
 
         self.title = "Sandbox"
@@ -24,23 +25,26 @@ class SandboxInterface(ToolWidget):
         header = QtGui.QWidget()
         header_layout = QtGui.QHBoxLayout()
         header_layout.setAlignment(QtCore.Qt.AlignCenter)
-        pixmap = QtGui.QPixmap(MODULE_PATH+"/sandbox.png")
+        pixmap = QtGui.QPixmap(self.MODULE_PATH+"/sandbox.png")
+
         label_icon = QtGui.QLabel(self)
         label_icon.setFixedSize(QtCore.QSize(128, 86))
         label_icon.setScaledContents(1)
         label_icon.setPixmap(pixmap)
         label_icon.setAlignment(QtCore.Qt.AlignCenter)
+
         label_text = QtGui.QLabel("Sandbox")
         label_text.setFont(QtGui.QFont( "Arial", 18, QtGui.QFont.Bold))
+
         header_layout.addWidget(label_icon)
         header_layout.addWidget(label_text)
         header.setLayout(header_layout)
 
-        # build data and tool widget
+        # store sandbox packages
         packages = self.find_packages()
-        package_list = VerticalButtonList(self)
 
-        # add widgets
+        # widgets
+        package_list = VerticalButtonList(self)
         package_list.layout().addWidget(header)
         for package in packages:
             # import the package module to access properties dict()

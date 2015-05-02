@@ -1,0 +1,3 @@
+[submodule "src/ampt/tools/third_party/Red9"]
+	path = src/ampt/tools/third_party/Red9
+	url = git@github.com:markj3d/Red9_StudioPack.git
