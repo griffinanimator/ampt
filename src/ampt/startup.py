@@ -25,9 +25,15 @@ def configure_scripts():
     if SCRIPTS_PATH not in sys.path:
         sys.path.append(SCRIPTS_PATH)
 
-
+# configure environment
 configure_plugins()
 configure_scripts()
 
 # Start Red9 Studio Pack
 cmds.evalDeferred("import Red9; Red9.start()")
+
+# Start the AMPT Sandbox
+cmds.evalDeferred("import ampt.sandbox.interface as sandbox; sandbox.load()")
+
+# Load PyJoint Plugin
+cmds.loadPlugin("py_joint.py")
