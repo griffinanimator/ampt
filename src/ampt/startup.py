@@ -18,19 +18,20 @@ def configure_plugins():
 
 
 def configure_scripts():
-    if SCRIPTS_PATH not in os.environ["MAYA_SCRIPT_PATH"]:
-        split_path = os.environ["MAYA_SCRIPT_PATH"].split(";")
-        split_path.append(SCRIPTS_PATH)
-        os.environ["MAYA_SCRIPT_PATH"] = str(";").join(split_path)
-    if SCRIPTS_PATH not in sys.path:
-        sys.path.append(SCRIPTS_PATH)
+    if os.path.exists(SCRIPTS_PATH):
+        if SCRIPTS_PATH not in os.environ["MAYA_SCRIPT_PATH"]:
+            split_path = os.environ["MAYA_SCRIPT_PATH"].split(";")
+            split_path.append(SCRIPTS_PATH)
+            os.environ["MAYA_SCRIPT_PATH"] = str(";").join(split_path)
+        if SCRIPTS_PATH not in sys.path:
+            sys.path.append(SCRIPTS_PATH)
 
 # configure environment
 configure_plugins()
 configure_scripts()
 
 # Start Red9 Studio Pack
-cmds.evalDeferred("import Red9; Red9.start()")
+# cmds.evalDeferred("import Red9; Red9.start()")
 
 # Start the AMPT Sandbox
 cmds.evalDeferred("import ampt.sandbox.interface as sandbox; sandbox.load()")

@@ -29,7 +29,7 @@ class LayoutSection(QtGui.QWidget):
         search_widget = QtGui.QWidget()
         search_layout = QtGui.QHBoxLayout()
 
-        search_label = QtGui.QLabel("Search: ")
+        search_label = QtGui.QLabel("Boom:: ")
         search_entry = QtGui.QLineEdit()
         search_button = QtGui.QPushButton()
 

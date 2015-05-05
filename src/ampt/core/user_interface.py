@@ -52,6 +52,18 @@ def get_maya_main_window_name():
     return pm.MelGlobals()['gMainWindow']
 
 
+def reload_interface(parent, cls):
+    parent = get_maya_main_window() if not parent else parent
+
+    for child in parent.children():
+        child_type = type(child).__name__
+        class_type = cls.__name__
+        if child_type == class_type:
+            child.setParent(None)
+            child.destroy()
+            cls(parent)
+
+
 def load_interface(parent, cls):
     parent = get_maya_main_window() if not parent else parent
 
@@ -79,6 +91,10 @@ def load_dock_interface(parent, cls):
     def get_tabbed_dock_widgets():
         docked_controls = [ctl for ctl in parent.children() if isinstance(ctl, QtGui.QDockWidget)]
         tabbed_controls = list()
+
+        # this seems like a very hacky way to find these controls.
+        # this process dumps fairly arbitrary lists into a new list
+        # using tabifiedDockWidgets()
         for control in docked_controls:
             for shared_control in parent.tabifiedDockWidgets(control):
                 if shared_control not in tabbed_controls:
@@ -89,13 +105,13 @@ def load_dock_interface(parent, cls):
     obj.setAllowedAreas(QtCore.Qt.AllDockWidgetAreas)
     parent.addDockWidget(QtCore.Qt.RightDockWidgetArea, obj)
 
-    tabbed_dock_controls = None
-    tabbed_dock_controls = get_tabbed_dock_widgets()
-    if obj not in tabbed_dock_controls:
-        tabbed_dock_controls.append(obj)
+    tabbed_dock_controls = get_tabbed_dock_widgets() or None
+    if tabbed_dock_controls:
+        if obj not in tabbed_dock_controls:
+            tabbed_dock_controls.append(obj)
 
-    for i in range(0, len(tabbed_dock_controls) - 1):
-        parent.tabifyDockWidget(tabbed_dock_controls[i], tabbed_dock_controls[i+1])
+        for i in range(0, len(tabbed_dock_controls) - 1):
+            parent.tabifyDockWidget(tabbed_dock_controls[i], tabbed_dock_controls[i+1])
 
 
 def add_menu(name=None):

@@ -8,6 +8,7 @@ from PySide import QtCore, QtGui
 
 # internal libraries
 from ampt.tools.widgets.tool_widget import ToolWidget
+from ampt.tools.widgets.reload_button import ReloadButton
 from ampt.core.user_interface import load_dock_interface
 
 # application libraries
@@ -45,13 +46,14 @@ class ModularRigging(ToolWidget):
         label_text = QtGui.QLabel(self.title)
         label_text.setFont(QtGui.QFont("Arial", 18, QtGui.QFont.Bold))
         header_layout.addWidget(label_text)
+        header_layout.addWidget(ReloadButton())
         header.setLayout(header_layout)
 
-
+        # tabbed sections
         sections = QtGui.QTabWidget()
         sections.addTab(LayoutSection(self), "Layout")
-        sections.addTab(WeightingSection(self), "Weighting")
-        sections.addTab(QtGui.QWidget(self), "Build")
+        # sections.addTab(WeightingSection(self), "Weighting")
+        # sections.addTab(QtGui.QWidget(self), "Build")
 
         main_layout.addWidget(header)
         main_layout.addWidget(sections)
