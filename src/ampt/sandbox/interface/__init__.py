@@ -48,7 +48,7 @@ class SandboxInterface(ToolWidget):
         package_list.layout().addWidget(header)
         for package in packages:
             # import the package module to access properties dict()
-            # this module obj drops out of scope after this loop completes
+            # this package_module obj drops out of scope after this loop completes
             package_module = self.import_package(package)
             # only add packages that are marked for debug
             if package_module.properties["is_debug"]:

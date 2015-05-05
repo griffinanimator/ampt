@@ -27,6 +27,8 @@ class ReloadButton(QtGui.QPushButton):
         label_icon.setPixmap(pixmap)
         label_icon.setAlignment(QtCore.Qt.AlignCenter)
 
+        self.setFlat(1)
+
         button_layout.addWidget(label_icon)
 
         self.setLayout(button_layout)

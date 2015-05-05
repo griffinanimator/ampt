@@ -35,6 +35,7 @@ class ModularRigging(ToolWidget):
         menu = QtGui.QMenuBar()
         file_menu = menu.addMenu("File")
         edit_menu = menu.addMenu("Edit")
+        help_menu = menu.addMenu("Help")
         main_layout.addWidget(menu)
 
         main_widget = QtGui.QWidget()
@@ -42,11 +43,7 @@ class ModularRigging(ToolWidget):
         # header
         header = QtGui.QWidget()
         header_layout = QtGui.QHBoxLayout()
-        header_layout.setAlignment(QtCore.Qt.AlignCenter)
-        label_text = QtGui.QLabel(self.title)
-        label_text.setFont(QtGui.QFont("Arial", 18, QtGui.QFont.Bold))
-        header_layout.addWidget(label_text)
-        header_layout.addWidget(ReloadButton())
+        header_layout.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
         header.setLayout(header_layout)
 
         # tabbed sections
