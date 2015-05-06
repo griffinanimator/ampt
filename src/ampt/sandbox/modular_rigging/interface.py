@@ -6,9 +6,11 @@ from PySide import QtCore, QtGui
 
 # internal libraries
 from ampt.tools.widgets.tool_widget import ToolWidget
+from ampt.core.user_interface import load_dock_interface
 
 # application libraries
 from widgets.layout_section import LayoutSection
+from component_manager import ComponentManager
 
 
 class Interface(ToolWidget):
@@ -20,6 +22,9 @@ class Interface(ToolWidget):
     def __init__(self, parent=None):
 
         super(Interface, self).__init__(self.TITLE, parent)
+
+        # instance component manager
+        self.component_manager = ComponentManager()
 
         # main widget
         main_layout = QtGui.QVBoxLayout()
@@ -48,3 +53,11 @@ class Interface(ToolWidget):
         main_widget.setLayout(main_layout)
 
         self.setWidget(main_widget)
+
+
+def load():
+    try:
+        load_dock_interface(None, Interface)
+    except Exception as e:
+        print e.message
+        pass

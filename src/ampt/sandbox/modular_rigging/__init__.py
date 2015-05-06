@@ -1,3 +1,3 @@
-properties = {"title": "Modular Rigging", "is_debug": True}
+from interface import load
 
-from main import load
+properties = {"title": "Modular Rigging", "is_debug": True}
