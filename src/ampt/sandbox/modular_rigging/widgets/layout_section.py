@@ -5,10 +5,9 @@ import os
 from PySide import QtCore, QtGui
 
 # internal libraries
-from ampt.core.os_utils import get_files
 
 # application libraries
-from ..component_manager import ComponentManager
+from ampt.sandbox.modular_rigging.plugins.component_manager import ComponentManager
 from ..widgets.component_widget import ComponentWidget
 
 MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))

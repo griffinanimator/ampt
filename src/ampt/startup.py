@@ -36,5 +36,5 @@ configure_scripts()
 # Start the AMPT Sandbox
 cmds.evalDeferred("import ampt.sandbox.interface as sandbox; sandbox.load()")
 
-# Load PyJoint Plugin
-cmds.loadPlugin("py_joint.py")
+# Load AMPT plugins
+cmds.loadPlugin("gl_control.py")

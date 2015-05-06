@@ -10,7 +10,7 @@ from ampt.core.user_interface import load_dock_interface
 
 # application libraries
 from widgets.layout_section import LayoutSection
-from component_manager import ComponentManager
+from ampt.sandbox.modular_rigging.plugins.component_manager import ComponentManager
 
 
 class Interface(ToolWidget):
