@@ -1,0 +1,6 @@
+{
+    "icon": "arm.png", 
+    "name": "arm segment", 
+    "summary": "This represents a dual joint segment with the constraints of a typical arm setup", 
+    "title": "Arm Segment"
+}
