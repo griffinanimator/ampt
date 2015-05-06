@@ -1,0 +1,6 @@
+{
+  "name": "segment",
+  "summary": "This represents a single joint segment",
+  "icon": "icons/icon1.png",
+  "title": "Single Joint Segment"
+}
