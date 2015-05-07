@@ -9,8 +9,9 @@ from ampt.tools.widgets.tool_widget import ToolWidget
 from ampt.core.user_interface import load_dock_interface
 
 # application libraries
-from widgets.layout_section import LayoutSection
-from ampt.sandbox.modular_rigging.plugins.component_manager import ComponentManager
+import widgets.layout_section as layout_section
+reload(layout_section)
+LayoutSection = layout_section.LayoutSection
 
 
 class Interface(ToolWidget):
@@ -22,9 +23,6 @@ class Interface(ToolWidget):
     def __init__(self, parent=None):
 
         super(Interface, self).__init__(self.TITLE, parent)
-
-        # instance component manager
-        self.component_manager = ComponentManager()
 
         # main widget
         main_layout = QtGui.QVBoxLayout()

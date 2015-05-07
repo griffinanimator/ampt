@@ -2,10 +2,9 @@
 import os
 
 # third party libraries
-from PySide import QtCore, QtGui
+from PySide import QtGui
 
 # application libraries
-from ampt.sandbox.modular_rigging.widgets.component_widget import ComponentWidget
 
 MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
 SANDBOX_PATH = os.path.abspath(os.path.split(MODULE_PATH)[0]).replace("\\", "/")
