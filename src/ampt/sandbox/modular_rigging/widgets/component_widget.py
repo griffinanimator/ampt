@@ -28,7 +28,7 @@ class ComponentWidget(QtGui.QPushButton):
         label_text = QtGui.QLabel(component.title)
         label_text.setFont(QtGui.QFont("Arial", 12, QtGui.QFont.Bold))
 
-        self.clicked.connect(component.info)
+        self.clicked.connect(component.layout_joints)
 
         button_layout.addWidget(label_icon)
         button_layout.addWidget(label_text)

@@ -2,7 +2,7 @@
 import os
 
 # application libraries
-from component import Component
+from ampt.sandbox.modular_rigging.component import Component
 
 MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
 COMPONENTS_PATH = os.path.join(MODULE_PATH, "components").replace("\\", "/")
