@@ -5,7 +5,7 @@ import os
 from PySide import QtCore, QtGui
 
 # internal libraries
-from ampt.core.os_utils import module_path, is_dir
+from ampt.core.filesystem import module_path, is_dir
 from ampt.core.user_interface import load_dock_interface
 from ampt.tools.widgets.tool_widget import ToolWidget
 from ampt.tools.widgets.vertical_button_list import VerticalButtonList

@@ -5,36 +5,17 @@ import sys
 # third party libraries
 import maya.cmds as cmds
 
-MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
-PLUGINS_PATH = os.path.join(MODULE_PATH, "plugins").replace("\\", "/")
-SCRIPTS_PATH = os.path.join(MODULE_PATH, "tools/third_party").replace("\\", "/")
+# internal libraries
+from core.filesystem import get_module_path, clean_path
+from core.setup import add_script_path, add_plugin_path
 
-
-def configure_plugins():
-    if PLUGINS_PATH not in os.environ["MAYA_PLUG_IN_PATH"]:
-        split_path = os.environ["MAYA_PLUG_IN_PATH"].split(";")
-        split_path.append(PLUGINS_PATH)
-        os.environ["MAYA_PLUG_IN_PATH"] = str(";").join(split_path)
-
-
-def configure_scripts():
-    if os.path.exists(SCRIPTS_PATH):
-        if SCRIPTS_PATH not in os.environ["MAYA_SCRIPT_PATH"]:
-            split_path = os.environ["MAYA_SCRIPT_PATH"].split(";")
-            split_path.append(SCRIPTS_PATH)
-            os.environ["MAYA_SCRIPT_PATH"] = str(";").join(split_path)
-        if SCRIPTS_PATH not in sys.path:
-            sys.path.append(SCRIPTS_PATH)
+# declare environment paths
+MODULE_PATH = get_module_path(__file__)
+PLUGINS_PATH = clean_path(os.path.join(MODULE_PATH, "plugins"))
+SCRIPTS_PATH = clean_path(os.path.join(MODULE_PATH, "tools/third_party"))
 
 # configure environment
-configure_plugins()
-configure_scripts()
+add_plugin_path(PLUGINS_PATH)
+add_script_path(SCRIPTS_PATH)
 
-# Start Red9 Studio Pack
-# cmds.evalDeferred("import Red9; Red9.start()")
-
-# Start the AMPT Sandbox
-cmds.evalDeferred("import ampt.sandbox.interface as sandbox; sandbox.load()")
-
-# Load PyJoint Plugin
-cmds.loadPlugin("py_joint.py")
+cmds.evalDeferred("import ampt.post_startup")

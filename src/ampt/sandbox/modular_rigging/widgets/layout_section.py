@@ -5,7 +5,7 @@ import os
 from PySide import QtCore, QtGui
 
 # internal libraries
-from ampt.core.os_utils import get_files
+from ampt.core.filesystem import get_files
 
 # application libraries
 from ..component_manager import ComponentManager

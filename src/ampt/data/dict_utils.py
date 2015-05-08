@@ -7,8 +7,8 @@ class JSONDict(dict):
         super(JSONDict, self).__init__(*args, **kwargs)
         self.fp = fp
         if os.path.exists(fp):
-            with open(self.fp) as fp:
-                data = json.load(fp)
+            with open(self.fp) as raw:
+                data = json.load(raw)
             self.update(data)
 
     def __getattr__(self, item):
