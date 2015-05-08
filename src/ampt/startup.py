@@ -31,10 +31,13 @@ configure_plugins()
 configure_scripts()
 
 # Start Red9 Studio Pack
-# cmds.evalDeferred("import Red9; Red9.start()")
+cmds.evalDeferred("import Red9; Red9.start()")
+
+# Start Epic A.R.T.
+cmds.evalDeferred("import Epic;")
 
 # Start the AMPT Sandbox
-cmds.evalDeferred("import ampt.sandbox.interface as sandbox; sandbox.load()")
+# cmds.evalDeferred("import ampt.sandbox.interface as sandbox; sandbox.load()")
 
 # Load PyJoint Plugin
-cmds.loadPlugin("py_joint.py")
+# cmds.loadPlugin("py_joint.py")
