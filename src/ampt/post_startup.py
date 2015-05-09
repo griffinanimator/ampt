@@ -1,3 +1,6 @@
+# main session
+import __main__
+
 # third party libraries
 import maya.cmds as cmds
 
@@ -5,8 +8,8 @@ import maya.cmds as cmds
 from core.settings import Settings
 
 # maya preference settings
-settings = Settings()
-# settings["units"] = "meter"
+# if you manage settings from here, you may consider this hard-coding the setting
+__main__.settings = Settings()
 
 # Load PyJoint Plugin
 cmds.loadPlugin("py_joint.py")

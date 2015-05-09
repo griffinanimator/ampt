@@ -1,3 +1,4 @@
 {
-    "units": "meter"
+    "units": "meter", 
+    "up_axis": "y"
 }

@@ -18,4 +18,5 @@ SCRIPTS_PATH = clean_path(os.path.join(MODULE_PATH, "tools/third_party"))
 add_plugin_path(PLUGINS_PATH)
 add_script_path(SCRIPTS_PATH)
 
+# post startup (these processes are available after the environment has initialized
 cmds.evalDeferred("import ampt.post_startup")
