@@ -1,0 +1,20 @@
+{
+    "icon": "segment.png", 
+    "layout": {
+        "controls": {
+            "end": [
+                0.7, 
+                0.0, 
+                0.0
+            ], 
+            "root": [
+                0.0, 
+                0.0, 
+                0.0
+            ]
+        }
+    }, 
+    "name": "segment", 
+    "summary": "This represents a single joint segment", 
+    "title": "Single Joint Segment"
+}
