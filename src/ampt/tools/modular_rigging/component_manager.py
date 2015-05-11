@@ -1,19 +1,19 @@
 # standard libraries
 import os
 
-# application libraries
-from ampt.tools.modular_rigging.component import Component
-
 MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
 COMPONENTS_PATH = os.path.join(MODULE_PATH, "components").replace("\\", "/")
 
 
 class ComponentManager():
-    def __init__(self):
-        self.components = self.load_components()
+    _component_instances = {}
 
-    def load_components(self):
-        return [Component(component_file) for component_file in self.find_component_files()]
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def available_components():
+        return [component_file for component_file in ComponentManager.find_component_files()]
 
     @staticmethod
     def find_component_files():

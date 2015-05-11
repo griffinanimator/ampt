@@ -1,0 +1,5 @@
+{
+  "icon": "icons/red9.jpg",
+  "title": "Red9 Studio Pack",
+  "cmd": "import Red9; Red9.start()"
+}

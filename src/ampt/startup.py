@@ -1,6 +1,5 @@
 # standard libraries
 import os
-import sys
 
 # third party libraries
 import maya.cmds as cmds
@@ -19,4 +18,4 @@ add_plugin_path(PLUGINS_PATH)
 add_script_path(SCRIPTS_PATH)
 
 # post startup (these processes are available after the environment has initialized
-cmds.evalDeferred("import ampt.post_startup")
+cmds.evalDeferred("import ampt.preferences")

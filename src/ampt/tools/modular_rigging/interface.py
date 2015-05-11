@@ -9,22 +9,25 @@ from ampt.tools.widgets.tool_widget import ToolWidget
 from ampt.core.user_interface import load_dock_interface
 
 # application libraries
-from ampt.tools.modular_rigging.widgets.layout_section import LayoutSection
-from ampt.tools.modular_rigging.component_manager import ComponentManager
+from ampt.tools.modular_rigging.widgets import layout_section
+from ampt.tools.modular_rigging import component_manager
+
+# debug reloads
+reload(layout_section)
+reload(component_manager)
+LayoutSection = layout_section.LayoutSection
+
+MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
 
 
 class Interface(ToolWidget):
 
-    MODULE_PATH = os.path.abspath(os.path.dirname(__file__).replace("\\", "/"))
     COMPONENTS_PATH = os.path.join(MODULE_PATH, "components").replace("\\", "/")
     TITLE = "Modular Rigging"
 
     def __init__(self, parent=None):
 
         super(Interface, self).__init__(self.TITLE, parent)
-
-        # instance component manager
-        self.component_manager = ComponentManager()
 
         # main widget
         main_layout = QtGui.QVBoxLayout()

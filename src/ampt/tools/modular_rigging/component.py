@@ -12,16 +12,14 @@ COMPONENTS_PATH = os.path.join(MODULE_PATH, "components").replace("\\", "/")
 
 
 class Component(object):
-    def __init__(self, file_path, parent=None, child=None):
-        self.__dict__.update(JSONDict(file_path))
-        self.joints = list()
+    def __init__(self, data, parent=None, child=None):
+        self.data = data
 
-    def layout_joints(self):
-        for name, position in self.layout["controls"].iteritems():
-            pm.select(clear=True)
-            self.joints.append(pm.nt.Joint(name=name, position=position))
-            pm.select(clear=True)
+    def install(self):
+        print "fuck"
+        for name, position in self.data["layout"]["controls"].iteritems():
 
-    def info(self):
-        print self.summary
-        print self.layout['controls']
+            # create component nodes
+            pm.select(clear=True)
+            component_node = pm.createNode("component_contol_sphere", name = name+"_component")
+            pm.select(clear=True)

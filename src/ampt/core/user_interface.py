@@ -34,6 +34,19 @@ def get_q_object(element_name):
     return shiboken.wrapInstance(pointer, QtCore.QObject)
 
 
+def get_q_object_as(cls, element_name):
+    """
+    :param element_name: str(<maya_element_name>)
+    :return: QObject
+    """
+    pointer = MQtUtil.findControl(element_name)
+    if not pointer:
+        pointer = MQtUtil.findLayout(element_name)
+    if not pointer:
+        pointer = MQtUtil.findMenuItem(element_name)
+    return shiboken.wrapInstance(pointer, cls)
+
+
 def get_maya_main_window():
     """
     :return: OpenMayaUI.MQtUtil.mainWindow() -> QMainWindow
@@ -122,7 +135,7 @@ def add_menu(name=None):
         pm.deleteUI(name, m=True)
     menu = pm.menu(name, parent=get_maya_main_window_name())
 
-    return get_q_object(menu)
+    return get_q_object_as(QtGui.QMenu, menu)
 
 
 def get_toolbars(q_obj):
