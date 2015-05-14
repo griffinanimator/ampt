@@ -42,7 +42,7 @@ class ComponentWidget(QtGui.QPushButton):
 
         def install():
             component_object = Component(component_data)
-            component_object.install()
+            component_object.create_component_node()
 
         self.clicked.connect(install)
 
