@@ -1,10 +1,18 @@
 {
-    "icon": "segment.png", 
+    "icon": "arm.png", 
     "layout": {
         "head": {
             "index": null, 
             "position": [
                 0.0, 
+                0.0, 
+                0.0
+            ]
+        }, 
+        "hinge": {
+            "index": 0, 
+            "position": [
+                0.45, 
                 0.0, 
                 0.0
             ]
@@ -18,7 +26,7 @@
             ]
         }
     }, 
-    "name": "segment", 
-    "summary": "This represents a single joint segment", 
-    "title": "Single Joint Segment"
+    "name": "hinge", 
+    "summary": "This represents a single hinge segment", 
+    "title": "Hinge Segment"
 }
