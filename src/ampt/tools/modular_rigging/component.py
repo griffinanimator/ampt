@@ -51,14 +51,15 @@ class Component(object):
 
     @property
     def elements(self):
+        # OrderDict retains the order that items are added
         container = collections.OrderedDict()
         container["head"] = self.head
-
+        # sort is based on the value of the item. in this case the first value is the index
+        # the head, tail and any other special elements will have a null index
+        # only indices that are not null will be added before the tail and after the head
         for key, value in sorted(self.layout.iteritems(), key=lambda (k, v): (v, k)):
-            if key not in ["head", "tail"]:
-                index = value["index"]
+            if value["index"] is not None:
                 container[key] = value
-
         container["tail"] = self.tail
         return container
 
@@ -67,6 +68,10 @@ class Component(object):
         output.update(self.data)
 
     def create_component_node(self):
+        # create the head
+        # create the conduit + other aux controls/conduits
+        # create the tail
+
         for key, value in self.elements.items():
             name = key
             position = value['position']

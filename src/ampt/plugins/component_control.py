@@ -15,36 +15,23 @@ node_type_id = OpenMaya.MTypeId(0x00000006)
 glRenderer = OpenMayaRender.MHardwareRenderer.theRenderer()
 glFT = glRenderer.glFunctionTable()
 
-aBase = OpenMaya.MObject()
 
-
-class RigNode(OpenMayaMPx.MPxLocatorNode):
-    size = OpenMaya.MObject()
-
+class ComponentControl(OpenMayaMPx.MPxLocatorNode):
     def __init__(self):
-        OpenMayaMPx.MPxLocatorNode.__init__(self)
+        super(ComponentControl, self).__init__()
 
+    # OVERRIDE
     def compute(self, plug, dataBlock):
         return OpenMaya.kUnknownParameter
 
-
-    # Define how the rigNode will draw.
+    #OVERRIDE
     def draw(self, view, path, style, status):
-        thisNode = self.thisMObject()
-
-        plug = OpenMaya.MPlug(thisNode, self.size)
-
-        sizeVal = plug.asMDistance()
-
-        multiplier = sizeVal.asCentimeters()
-
+        radius = 0.5
 
         view.beginGL()
 
         glFT.glEnable(OpenMayaRender.MGL_ALPHA)
         glFT.glEnable(OpenMayaRender.MGL_BLEND)
-
-        radius = 1
 
         glFT.glBegin(OpenMayaRender.MGL_TRIANGLE_FAN)
         glFT.glColor4f(0, 0, 1, 0.5)
@@ -76,30 +63,21 @@ class RigNode(OpenMayaMPx.MPxLocatorNode):
             glFT.glVertex3f(x, y, z)
         glFT.glEnd()
 
-        PI = math.pi
-        segx = 16
-        segy = 16
-        slX = 1
-        slY = 1
-        slZ = 1
-        trX = 0
-        trY = 0
-        trZ = 0
-        for i in xrange(segx):
-            lat0 = PI * (-0.5 + float(i) / segx)
-            z0  = math.sin(lat0)
+        for i in xrange(32):
+            lat0 = math.pi * (-0.5 + float(i) / 32)
+            z0 = math.sin(lat0)
             zr0 = math.cos(lat0)
-            lat1 = PI * (-0.5 + float(i+1) / segx)
+            lat1 = math.pi * (-0.5 + float(i + 1) / 32)
             z1 = math.sin(lat1)
             zr1 = math.cos(lat1)
             glFT.glBegin(OpenMayaRender.MGL_QUAD_STRIP)
-            glFT.glColor4f(1, 1, 1, 0.25)
-            for j in xrange(segy+1):
-                lng = 2 * PI * float(j) / segy
+            glFT.glColor4f(1, 1, 1, 0.5)
+            for j in xrange(32 + 1):
+                lng = 2 * math.pi * float(j) / 32
                 x = math.cos(lng)
                 y = math.sin(lng)
-                glFT.glVertex3f(x*slX* zr0 * radius+trX, y*slY * zr0 * radius+trY, z0*slZ * radius+trZ)
-                glFT.glVertex3f(x*slX* zr1 * radius+trX, y*slY * zr1 * radius+trY, z1*slZ * radius+trZ)
+                glFT.glVertex3f(x * zr0 * radius, y * zr0 * radius, z0 * radius)
+                glFT.glVertex3f(x * zr1 * radius, y * zr1 * radius, z1 * radius)
             glFT.glEnd()
 
         glFT.glDisable(OpenMayaRender.MGL_ALPHA)
@@ -107,96 +85,37 @@ class RigNode(OpenMayaMPx.MPxLocatorNode):
 
         view.endGL()
 
-        # glFT.glColor3f(1, 0, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(-0.4, 0.0, 0.0)
-        # glFT.glVertex3f(-0.2, 0.0, 0.2)
-        # glFT.glVertex3f(-0.2, 0.0, -0.2)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(1, 0, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(0.4, 0.0, 0.0)
-        # glFT.glVertex3f(0.2, 0.0, 0.2)
-        # glFT.glVertex3f(0.2, 0.0, -0.2)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(1, 0, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(-0.4, 0.0, 0.0)
-        # glFT.glVertex3f(-0.2, 0.2, 0.0)
-        # glFT.glVertex3f(-0.2, -0.2, -0.0)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(1, 0, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(0.4, 0.0, 0.0)
-        # glFT.glVertex3f(0.2, 0.2, 0.0)
-        # glFT.glVertex3f(0.2, -0.2, -0.0)
-        # glFT.glEnd()
-        #
-        # # cmds.createNode('RG_Part')
-        #
-        #
-        # # Y Axis
-        # glFT.glColor3f(0, 1, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(-0.2, 0.2, 0.0)
-        # glFT.glVertex3f(0.0, 0.4, 0.0)
-        # glFT.glVertex3f(0.2, 0.2, 0.0)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(0, 1, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(-0.2, -0.2, 0.0)
-        # glFT.glVertex3f(0.0, -0.4, 0.0)
-        # glFT.glVertex3f(0.2, -0.2, 0.0)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(0, 1, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(0.0, 0.2, -0.2)
-        # glFT.glVertex3f(0.0, 0.4, 0.0)
-        # glFT.glVertex3f(0.0, 0.2, 0.2)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(0, 1, 0)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(0.0, -0.2, -0.2)
-        # glFT.glVertex3f(0.0, -0.4, 0.0)
-        # glFT.glVertex3f(0.0, -0.2, 0.2)
-        # glFT.glEnd()
-        #
-        #
-        #
-        # # Z Axis
-        # glFT.glColor3f(0, 0, 1)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(-0.2, 0.0, 0.2)
-        # glFT.glVertex3f(0.0, 0.0, 0.4)
-        # glFT.glVertex3f(0.2, 0.0, 0.2)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(0, 0, 1)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(-0.2, 0.0, -0.2)
-        # glFT.glVertex3f(0.0, 0.0, -0.4)
-        # glFT.glVertex3f(0.2, 0.0, -0.2)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(0, 0, 1)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(0.0, -0.2, 0.2)
-        # glFT.glVertex3f(0.0, 0.0, 0.4)
-        # glFT.glVertex3f(0.0, 0.2, 0.2)
-        # glFT.glEnd()
-        #
-        # glFT.glColor3f(0, 0, 1)
-        # glFT.glBegin(OpenMayaRender.MGL_TRIANGLES)
-        # glFT.glVertex3f(0.0, -0.2, -0.2)
-        # glFT.glVertex3f(0.0, 0.0, -0.4)
-        # glFT.glVertex3f(0.0, 0.2, -0.2)
-        # glFT.glEnd()
+        glFT.glBegin( OpenMayaRender.MGL_TRIANGLES );
+        glFT.glColor3f( 1, 0, 0 )
+        glFT.glVertex3f( 0, 1, 0 )
+        glFT.glColor3f( 0, 1, 0 )
+        glFT.glVertex3f( -1, -1, 1 )
+        glFT.glColor3f( 0, 0, 1 )
+        glFT.glVertex3f( 1, -1, 1);
+
+        glFT.glColor3f( 1, 0, 0 )
+        glFT.glVertex3f( 0, 1, 0);
+        glFT.glColor3f( 0, 1, 0 )
+        glFT.glVertex3f( -1, -1, 1);
+        glFT.glColor3f( 0, 0, 1 )
+        glFT.glVertex3f( 0, -1, -1);
+
+        glFT.glColor3f( 1, 0, 0 )
+        glFT.glVertex3f( 0, 1, 0)
+        glFT.glColor3f( 0, 1, 0 )
+        glFT.glVertex3f( 0, -1, -1)
+        glFT.glColor3f( 0, 0, 1 )
+        glFT.glVertex3f( 1, -1, 1)
+
+
+        glFT.glColor3f( 1, 0, 0 )
+        glFT.glVertex3f( -1, -1, 1)
+        glFT.glColor3f( 0, 1, 0 )
+        glFT.glVertex3f( 0, -1, -1)
+        glFT.glColor3f( 0, 0, 1 )
+        glFT.glVertex3f( 1, -1, 1)
+
+        glFT.glEnd();
 
     def isBounded(self):
         return True
@@ -220,14 +139,14 @@ class RigNode(OpenMayaMPx.MPxLocatorNode):
 
 
 def nodeCreator():
-    return OpenMayaMPx.asMPxPtr(RigNode())
+    return OpenMayaMPx.asMPxPtr(ComponentControl())
 
 
 def nodeInitializer():
     unitFn = OpenMaya.MFnUnitAttribute()
-    RigNode.size = unitFn.create("size", "in", OpenMaya.MFnUnitAttribute.kDistance)
+    ComponentControl.size = unitFn.create("size", "in", OpenMaya.MFnUnitAttribute.kDistance)
     unitFn.setDefault(1.0)
-    RigNode.addAttribute(RigNode.size)
+    ComponentControl.addAttribute(ComponentControl.size)
 
 
 def initializePlugin(mobject):
