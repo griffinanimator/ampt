@@ -401,30 +401,6 @@ class Boom(ToolWindow):
           <div class='swanky_title'>
             <h1>Swanky Lil Drop Down Menu V2.0</h1>
             <p>Pure CSS Drop down menu. Nice little addition to any non-javascript user interface. Uses the labels for trick to toggle animations.</p>
-            <div class='swanky_title__social'>
-              <a href='http://www.twitter.com/jamiecoulter89' target='_blank'>
-                <div class='slide'>
-                  <div class='arrow'>
-                    <div class='stem'></div>
-                    <div class='point'></div>
-                  </div>
-                </div>
-                <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tw.png'>
-                Twitter
-              </a>
-            </div>
-            <div class='swanky_title__social'>
-              <a href='http://www.codepen.io/jcoulterdesign/' target='_blank'>
-                <div class='slide'>
-                  <div class='arrow'>
-                    <div class='stem'></div>
-                    <div class='point'></div>
-                  </div>
-                </div>
-                <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/cp.png'>
-                Codepen
-              </a>
-            </div>
           </div>
           <!-- /////////// Begin Dropdown //////////// -->
           <div class='swanky_wrapper'>
