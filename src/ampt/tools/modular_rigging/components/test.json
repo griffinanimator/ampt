@@ -1,0 +1,40 @@
+{
+    "icon": "arm.png", 
+    "layout": {
+        "double_hinge": {
+            "index": 1, 
+            "position": [
+                0.55, 
+                0.0, 
+                0.0
+            ]
+        }, 
+        "head": {
+            "index": null, 
+            "position": [
+                0.0, 
+                0.0, 
+                0.0
+            ]
+        }, 
+        "hinge": {
+            "index": 0, 
+            "position": [
+                0.55, 
+                0.0, 
+                0.0
+            ]
+        }, 
+        "tail": {
+            "index": null, 
+            "position": [
+                0.7, 
+                0.0, 
+                0.0
+            ]
+        }
+    }, 
+    "name": "test", 
+    "summary": "This represents a test segment", 
+    "title": "Test Segment"
+}

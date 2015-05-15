@@ -42,30 +42,35 @@ class Component(object):
     @property
     def head(self):
         _head = self.layout["head"] if self.layout else None
-        return ("head", _head) if _head else None
+        return _head if _head else None
 
     @property
     def tail(self):
         _tail = self.layout["tail"] if self.layout else None
-        return ("tail", _tail) if _tail else None
+        return _tail if _tail else None
 
     @property
     def elements(self):
-        _elements = collections.OrderedDict()
-        if self.head and self.tail:
-            for key, value in self.layout.iteritems():
-                if key not in ["head", "tail"]:
-                    index = value["index"]
-                    print "foo: ", index
-                    _elements[index+1] = (key, value)
-        _elements[0] = self.head
-        _elements[len(_elements) + 1] = self.tail
-        return _elements
+        container = collections.OrderedDict()
+        container["head"] = self.head
+
+        for key, value in sorted(self.layout.iteritems(), key=lambda (k, v): (v, k)):
+            if key not in ["head", "tail"]:
+                index = value["index"]
+                container[key] = value
+
+        container["tail"] = self.tail
+        return container
 
     def dump_data(self, file_path):
         output = JSONDict(file_path)
         output.update(self.data)
 
     def create_component_node(self):
-        print self.elements
+        for key, value in self.elements.items():
+            name = key
+            position = value['position']
 
+            transform = pm.nt.Transform(name=name)
+            transform.setTranslation(position, 'world')
+            node = pm.createNode("AMPT_Component_Control", p=transform, n=name+"_Shape")
